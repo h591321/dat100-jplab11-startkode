@@ -2,6 +2,7 @@ package no.hvl.dat100.jplab11.oppgave3;
 
 import no.hvl.dat100.jplab11.common.TODO;
 import no.hvl.dat100.jplab11.oppgave1.*;
+import no.hvl.dat100.jplab11.oppgave2.Tekst;
 
 public class Blogg {
 	
@@ -84,25 +85,49 @@ public class Blogg {
 		boolean innlagt=false;
 		
 		if(!finnes(innlegg)&&ledigPlass()) {
-			if(leggTil(innlegg)) {innlagt=true;}
+			if(leggTil(innlegg)) {
+				innlagt=true;
+				}
 		}
 		else if(!finnes(innlegg)&&!ledigPlass()) {
 			utvid();
-			if(leggTil(innlegg)) {innlagt=true;}
+			if(leggTil(innlegg)) {
+				innlagt=true;
+				}
 		}
-		
 		
 		return innlagt;
 	}
 	
 	public boolean slett(Innlegg innlegg) {
-		
-		throw new UnsupportedOperationException(TODO.method());
+		boolean slettet=false;
+		if(finnes(innlegg)) {
+			innleggtabell[finnInnlegg(innlegg)]=innleggtabell[nesteledige-1];
+			nesteledige--;
+			slettet=true;
+		}
+		return slettet;
 	}
 	
 	public int[] search(String keyword) {
-		
-		throw new UnsupportedOperationException(TODO.method());
-
+		int teller=0;
+		int[] idTab=new int[nesteledige];
+		for(int i=0;i<nesteledige;i++) {
+			if(innleggtabell[i]!=null) {
+				if(innleggtabell[i].toString().contains(keyword)) {
+					idTab[i]=innleggtabell[i].getId();
+					teller++;
+				}
+			}
+		}
+		int[] idTabUt=new int[teller];
+		int teller2=0;
+		for(int j=0;j<nesteledige;j++) {
+			if(idTab[j]>0) {
+				idTabUt[teller2]=idTab[j];
+				teller2++;
+			}
+		}
+		return idTabUt;
 	}
 }
