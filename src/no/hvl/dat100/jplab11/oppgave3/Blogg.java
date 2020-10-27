@@ -7,7 +7,7 @@ public class Blogg {
 	
 	Innlegg[] innleggtabell;
 	int nesteledige;
-	int lengde;
+
 	
 	public Blogg() {
 		this.innleggtabell=new Innlegg[20];
@@ -17,7 +17,6 @@ public class Blogg {
 	public Blogg(int lengde) {
 		this.innleggtabell=new Innlegg[lengde];
 		nesteledige=0;
-		this.lengde=lengde;
 	}
 
 	public int getAntall() {
@@ -47,7 +46,7 @@ public class Blogg {
 
 	public boolean ledigPlass() {
 		boolean ledig=true;
-		if(lengde<=nesteledige) {ledig=false;}
+		if(innleggtabell.length<=nesteledige) {ledig=false;}
 		return ledig;
 	}
 	
@@ -73,13 +72,27 @@ public class Blogg {
 	// valgfrie oppgaver nedenfor
 	
 	public void utvid() {
-		throw new UnsupportedOperationException(TODO.method());
+		Innlegg[] utvidet = new Innlegg[innleggtabell.length*2];
+		
+		for(int i=0;i<innleggtabell.length;i++) {
+			utvidet[i]=innleggtabell[i];
+		}
+		innleggtabell=utvidet;
 	}
 	
 	public boolean leggTilUtvid(Innlegg innlegg) {
-
-		throw new UnsupportedOperationException(TODO.method());
+		boolean innlagt=false;
 		
+		if(!finnes(innlegg)&&ledigPlass()) {
+			if(leggTil(innlegg)) {innlagt=true;}
+		}
+		else if(!finnes(innlegg)&&!ledigPlass()) {
+			utvid();
+			if(leggTil(innlegg)) {innlagt=true;}
+		}
+		
+		
+		return innlagt;
 	}
 	
 	public boolean slett(Innlegg innlegg) {
